@@ -15,11 +15,11 @@ self.addEventListener('install', function(event) {
       caches.open('v1').then(function(cache) {
         return cache.addAll([
           '/',
-          '/index.html',
-          '/manifest.json',
-          '/CSS Bus.css',
-          '/JS bus.js',
-          '/ic.png',
+          'index.html',
+          'manifest.json',
+          'CSS Bus.css',
+          'JS bus.js',
+          'ic.png',
         ]);
       })
     );
@@ -76,11 +76,4 @@ if ('serviceWorker' in navigator) {
   });
 }
 ///
-self.addEventListener('install', (event) => {
-    console.log('Service Worker installing...');
-});
-
-self.addEventListener('activate', (event) => {
-    console.log('Service Worker activating...');
-});
 
