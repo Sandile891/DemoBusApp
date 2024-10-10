@@ -1,10 +1,10 @@
 const CACHE_NAME = 'pwa-cache-v1';
 const urlsToCache = [
   '/',
-  'index.html',
-  'manifest.json',
-  'CSS Bus.css', // Add your CSS files here
-  'JS bus.js',  // Add your JavaScript files here
+  '/index.html',
+  '/manifest.json',
+  '/CSS Bus.css', // Add your CSS files here
+  '/JS bus.js',  // Add your JavaScript files here
   // Add other assets like images, etc.
 ];
 
@@ -46,9 +46,3 @@ self.addEventListener('activate', function(event) {
     })
   );
 });
-
-if (workbox.navigationPreload.isSupported()) {
-  workbox.navigationPreload.enable();
-}
-
-workbox.routing.registerRoute(
