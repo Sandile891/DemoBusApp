@@ -15,11 +15,11 @@ self.addEventListener('install', function(event) {
       caches.open('v1').then(function(cache) {
         return cache.addAll([
           '/',
-          '/Bus app.html',
+          '/index.html',
           '/manifest.json',
           '/CSS Bus.css',
           '/JS bus.js',
-          '/icon.png',
+          '/ic.png',
         ]);
       })
     );
@@ -84,4 +84,4 @@ self.addEventListener('activate', (event) => {
     console.log('Service Worker activating...');
 });
 ///
-navigator.serviceWorker.register('/sw.js', { scope: '/' })
+navigator.serviceWorker.register('service-worker.js', { scope: '/' })
