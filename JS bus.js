@@ -75,3 +75,13 @@ if ('serviceWorker' in navigator) {
           });
   });
 }
+///
+self.addEventListener('install', (event) => {
+    console.log('Service Worker installing...');
+});
+
+self.addEventListener('activate', (event) => {
+    console.log('Service Worker activating...');
+});
+///
+navigator.serviceWorker.register('/sw.js', { scope: '/' })
