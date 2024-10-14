@@ -1,6 +1,6 @@
 {
-  "name": "Putco Bus App",
-  "short_name": "Putco App",
+  "name": "Demo Bus App",
+  "short_name": "Demo App",
   "description": "Track your bus in real-time, buy tickets online, and stay updated.",
   "start_url": "index.html",
   "display": "standalone",
