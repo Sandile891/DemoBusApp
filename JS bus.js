@@ -170,3 +170,25 @@ async function sendDataToFirestore(tripQuantity, busTag, bankCard, expiryDate, c
         console.error('Error sending data to Firestore:', error);
     }
 }
+/////
+// Function to read NFC tags
+async function readNFC() {
+    try {
+        const nfc = new NDEFReader();
+        await nfc.scan();
+
+        nfc.onreading = async (event) => {
+            const message = event.message;
+            for (const record of message.records) {
+                const decoder = new TextDecoder(record.dataEncoding);
+                const data = decoder.decode(record.data);
+                console.log('NFC data:', data);
+                // Process the NFC data (e.g., update the form)
+                document.getElementById('bus-tag').value = data; // Example
+            }
+        };
+    } catch (error) {
+        console.error('Error reading NFC:', error);
+    }
+}
+
