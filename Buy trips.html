@@ -8,104 +8,26 @@
     <link rel="stylesheet" href="CSS Bus.css">
     <button id="install-button" style="display:none;">Install App</button>
     <script src="JS bus.js"></script>
-
     
-    <script>
-        // JavaScript to handle form submission and e-ticket generation
-        function generateETicket(event) {
-            event.preventDefault(); // Prevent form from submitting
-
-            // Generate a unique code for the e-ticket
-            const uniqueCode = Math.random().toString(36).substring(2, 12);
-
-            // Get form data
-            const tripQuantity = document.getElementById('trip-quantity').value;
-            const departureLocation = "Your Location";
-            const arrivalLocation = "Destination";
-            const departureTime = "06:45";
-            const arrivalTime = "11:40";
-            const passengerName = "Your Name"; // This can be dynamically set by the user's input
-            
-
-            // Populate the e-ticket details
-            document.getElementById('departure-location').textContent = departureLocation;
-            document.getElementById('arrival-location').textContent = arrivalLocation;
-            document.getElementById('departure-time').textContent = departureTime;
-            document.getElementById('arrival-time').textContent = arrivalTime;
-            document.getElementById('passenger-name').textContent = passengerName;
-            document.getElementById('barcode-serial').textContent = uniqueCode;
-
-            // Display the e-ticket section
-            document.getElementById('eticket-display-section').style.display = 'block';
-        }
-    </script>
-
-<script src="JS bus.js"></script>
-
-
-</head>
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Demo BusTracker</title>
     <style>
-        /* Header Styles */
-        body {
-            font-family: serif; /* For consistent serif font across the site */
-        }
-        header {
-            background-color: #003366; /* Blue background */
-            color: white;
-            padding: 20px;
+        /* Additional Styles for NFC Button */
+        .nfc-container {
+            margin-top: 20px;
             text-align: center;
         }
-        nav a {
-            color: white;
-            margin: 0 10px;
-            text-decoration: none;
-        }
-        nav {
-            text-align: right;
-            margin-right: 20px;
-        }
-        nav a:hover {
-            text-decoration: underline;
-        }
-
-        /* Form Styles */
-        .form-container {
-            padding: 20px;
-        }
-        input, select {
-            margin-bottom: 15px; /* Space between fields */
-            padding: 10px; /* Padding inside input/select fields */
-            width: 100%; /* Full width for fields */
-            box-sizing: border-box; /* Ensures padding is included in width */
-        }
-        .buy-button {
-            background-color: orange;
+        .nfc-button {
+            background-color: green;
             color: white;
             padding: 10px 20px;
             border: none;
             cursor: pointer;
         }
-        .buy-button:hover {
-            background-color: darkorange;
-        }
-
-        /* Footer Styles */
-        footer {
-            background-color: orange;
-            text-align: center;
-            padding: 15px;
-            color: white;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
+        .nfc-button:hover {
+            background-color: darkgreen;
         }
     </style>
 </head>
+
 <body>
     <header>
         <h1>Demo BusTracker</h1>
@@ -120,9 +42,9 @@
         <h2>Purchase Your E-Tickets</h2>
         <p>Select the number of e-tickets and enter your details to complete the purchase.</p>
 
-        <form action="#">
+        <form action="#" onsubmit="generateETicket(event)">
             <label for="tickets">Number of E-Tickets</label>
-            <select id="tickets" name="tickets">
+            <select id="trip-quantity" name="tickets">
                 <option value="10">10 E-Tickets - R110</option>
                 <option value="20">20 E-Tickets - R220</option>
                 <option value="30">30 E-Tickets - R330</option>
@@ -132,6 +54,13 @@
 
             <label for="bus-tag">Bus Tag Card Number</label>
             <input type="text" id="bus-tag" name="bus-tag" placeholder="Enter your bus tag card number" required>
+
+            <label for="serial-number">NFC Serial Number</label>
+            <input type="text" id="serial-number" name="serial-number" placeholder="Enter NFC serial number (if applicable)">
+
+            <div class="nfc-container">
+                <button type="button" class="nfc-button" id="nfc-button">Scan NFC</button>
+            </div>
 
             <label for="bank-card">Bank Card Number (Visa only)</label>
             <input type="text" id="bank-card" name="bank-card" placeholder="Enter your Visa card number" required>
@@ -146,11 +75,21 @@
         </form>
     </div>
 
-
-    <!-- Footer Section >
+    <!-- Footer Section -->
     <footer>
-        &copy; Demo Bus Application 
-    </footer-->
+        &copy; Demo Bus Application
+    </footer>
+
+    <script>
+        // Add NFC button interaction functionality
+        document.getElementById('nfc-button').addEventListener('click', function() {
+            // Here you would implement the NFC scanning logic
+            // For demonstration, let's just simulate a scan with a random serial number
+            const randomSerialNumber = "SN" + Math.random().toString(36).substring(2, 8).toUpperCase();
+            document.getElementById('serial-number').value = randomSerialNumber;
+            alert('NFC scan successful! Serial Number: ' + randomSerialNumber);
+        });
+    </script>
 </body>
 </html>
 
