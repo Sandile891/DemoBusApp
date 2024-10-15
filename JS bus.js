@@ -191,4 +191,31 @@ async function readNFC() {
         console.error('Error reading NFC:', error);
     }
 }
+async function readNFC() {
+    const nfcButton = document.getElementById('nfc-scan-button');
+    nfcButton.textContent = "Scanning..."; // Update button text
+    nfcButton.disabled = true; // Disable button during scan
+    try {
+        const nfc = new NDEFReader();
+        await nfc.scan();
+
+        nfc.onreading = async (event) => {
+            const message = event.message;
+            for (const record of message.records) {
+                const decoder = new TextDecoder(record.dataEncoding);
+                const data = decoder.decode(record.data);
+                console.log('NFC data:', data);
+                document.getElementById('bus-tag').value = data;
+            }
+            // Provide feedback to user
+            alert("NFC scanned successfully!");
+            nfcButton.textContent = "Scan NFC"; // Reset button text
+        };
+    } catch (error) {
+        console.error('Error reading NFC:', error);
+        alert("NFC scan failed. Please try again.");
+    } finally {
+        nfcButton.disabled = false; // Re-enable button
+    }
+}
 
