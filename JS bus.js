@@ -15,11 +15,11 @@ self.addEventListener('install', function(event) {
       caches.open('v1').then(function(cache) {
         return cache.addAll([
           '/',
-          '/index.html',
-          '/manifest.json',
-          '/CSS Bus.css',
-          '/JS bus.js',
-          '/ic.png',
+          'index.html',
+          'manifest.json',
+          'CSS Bus.css',
+          'JS bus.js',
+          'ic.png',
         ]);
       })
     );
@@ -66,7 +66,7 @@ window.addEventListener('beforeinstallprompt', (e) => {
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-      navigator.serviceWorker.register('service-worker.js')
+      navigator.serviceWorker.register('sw.js')
           .then((registration) => {
               console.log('Service Worker registered with scope:', registration.scope);
           })
