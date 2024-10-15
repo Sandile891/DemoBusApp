@@ -6,6 +6,7 @@
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#008000",
+  "app_id": "com.demobus",
   "icons": [
     {
       "src": "ic.png",
