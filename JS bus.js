@@ -225,3 +225,9 @@ if ('NDEFReader' in window) {
     alert("NFC is not supported on this device.");
     return;
 }
+
+function myFunction() {
+    return "Hello, World!"; // This is valid
+}
+
+return "This will cause an error"; // This is invalid and will throw a SyntaxError
