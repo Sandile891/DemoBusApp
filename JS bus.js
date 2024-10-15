@@ -219,3 +219,9 @@ async function readNFC() {
     }
 }
 
+if ('NDEFReader' in window) {
+    // NFC is available
+} else {
+    alert("NFC is not supported on this device.");
+    return;
+}
