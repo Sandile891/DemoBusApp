@@ -5,11 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Buy E-Tickets - Demo Bus</title>
-    <li><a href="index.html">Home</a></li>
     <link rel="stylesheet" href="CSS Bus.css">
     <button id="install-button" style="display:none;">Install App</button>
     <script src="JS bus.js"></script>
-    
+
     <style>
         /* Additional Styles for NFC Button */
         .nfc-container {
@@ -83,52 +82,70 @@
 
     <script>
         // Add NFC button interaction functionality
-        document.getElementById('nfc-button').addEventListener('click', function() {
-            // Here you would implement the NFC scanning logic
-            // For demonstration, let's just simulate a scan with a random serial number
-            const randomSerialNumber = "SN" + Math.random().toString(36).substring(2, 8).toUpperCase();
-            document.getElementById('serial-number').value = randomSerialNumber;
-            alert('NFC scan successful! Serial Number: ' + randomSerialNumber);
+        document.getElementById('nfc-button').addEventListener('click', async function() {
+            if ('NDEFReader' in window) {
+                try {
+                    const nfc = new NDEFReader();
+                    await nfc.scan();
+
+                    nfc.onreading = (event) => {
+                        const message = event.message;
+                        for (const record of message.records) {
+                            const decoder = new TextDecoder(record.dataEncoding);
+                            const data = decoder.decode(record.data);
+                            document.getElementById('serial-number').value = data;
+                        }
+                        alert("NFC scan successful!");
+                    };
+
+                    nfc.onreadingerror = () => {
+                        alert("Error reading NFC. Make sure your card is close to the device.");
+                    };
+                } catch (error) {
+                    console.error('Error initializing NFC:', error);
+                    alert("NFC scan failed. Please try again.");
+                }
+            } else {
+                alert("NFC is not supported on this device.");
+            }
         });
     </script>
-    
-<!-- Add Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
-<script>
-    // Initialize Firebase
-    const firebaseConfig = {
-        apiKey: "YOUR_API_KEY",
-        authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-        projectId: "YOUR_PROJECT_ID",
-        storageBucket: "YOUR_PROJECT_ID.appspot.com",
-        messagingSenderId: "YOUR_SENDER_ID",
-        appId: "YOUR_APP_ID"
-    };
 
-    // Initialize Firebase
-    const app = firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
+    <!-- Add Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+    <script>
+        // Initialize Firebase
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
 
-    // Function to send data to Firestore
-    async function sendDataToFirestore(tripQuantity, busTag, bankCard, expiryDate, cvv) {
-        try {
-            const docRef = await db.collection("eTickets").add({
-                tripQuantity,
-                busTag,
-                bankCard,
-                expiryDate,
-                cvv,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            });
-            console.log('Document written with ID: ', docRef.id);
-        } catch (error) {
-            console.error('Error adding document: ', error);
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Function to send data to Firestore
+        async function sendDataToFirestore(tripQuantity, busTag, bankCard, expiryDate, cvv) {
+            try {
+                const docRef = await db.collection("eTickets").add({
+                    tripQuantity,
+                    busTag,
+                    bankCard,
+                    expiryDate,
+                    cvv,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                console.log('Document written with ID: ', docRef.id);
+            } catch (error) {
+                console.error('Error adding document: ', error);
+            }
         }
-    }
-</script>
-
-    
+    </script>
 </body>
 </html>
 
