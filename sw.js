@@ -86,7 +86,7 @@ self.addEventListener('push', function(event) {
 self.addEventListener('notificationclick', function(event) {
   event.notification.close();
   event.waitUntil(
-    clients.openWindow('https://your-app-url.com')
+    clients.openWindow('https://sandile891.github.io/DemoBusApp/')
   );
 });
 
