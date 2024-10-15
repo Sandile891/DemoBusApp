@@ -119,3 +119,54 @@ function urlBase64ToUint8Array(base64String) {
   }
   return outputArray;
 }
+////////////////
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle the form submission
+    const form = document.getElementById('purchase-form');
+    form.addEventListener('submit', async function(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        // Get form data
+        const tripQuantity = document.getElementById('tickets').value;
+        const busTag = document.getElementById('bus-tag').value;
+        const bankCard = document.getElementById('bank-card').value;
+        const expiryDate = document.getElementById('expiry-date').value;
+        const cvv = document.getElementById('cvv').value;
+
+        // Validate and process the form data
+        if (validateFormData(tripQuantity, busTag, bankCard, expiryDate, cvv)) {
+            // Communicate with Firestore
+            await sendDataToFirestore(tripQuantity, busTag, bankCard, expiryDate, cvv);
+        }
+    });
+});
+
+// Function to validate form data
+function validateFormData(tripQuantity, busTag, bankCard, expiryDate, cvv) {
+    // Basic validation logic (add more as needed)
+    return tripQuantity && busTag && bankCard && expiryDate && cvv;
+}
+
+// Function to send data to Firestore
+async function sendDataToFirestore(tripQuantity, busTag, bankCard, expiryDate, cvv) {
+    try {
+        // Example Firestore API request (replace with your actual Firestore logic)
+        const response = await fetch('https://your-firestore-url', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                tripQuantity,
+                busTag,
+                bankCard,
+                expiryDate,
+                cvv
+            }),
+        });
+        const data = await response.json();
+        console.log('Data sent to Firestore:', data);
+    } catch (error) {
+        console.error('Error sending data to Firestore:', error);
+    }
+}
