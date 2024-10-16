@@ -98,3 +98,6 @@ self.addEventListener('fetch', (event) => {
       })
   );
 });
+function myFunction() {
+  return "This is correct";
+}
