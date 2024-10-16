@@ -231,3 +231,24 @@ function myFunction() {
 }
 
 return "This will cause an error"; // This is invalid and will throw a SyntaxError
+
+// NFC button click event listener
+document.getElementById('nfc-scan-button').addEventListener('click', function () {
+    if ('NDEFReader' in window) {
+        if (!isNFCEnabled()) {
+            alert("Please enable NFC in your device settings to proceed.");
+        } else {
+            readNFC(); // Call the readNFC function if NFC is supported and enabled
+        }
+    } else {
+        alert("NFC is not supported on this device."); // Alert user if NFC is not supported
+    }
+});
+
+// Function to detect if NFC is enabled (works for most modern Android devices)
+function isNFCEnabled() {
+    // This is a pseudo-check for demo purposes
+    // NFC enabled status can usually be checked with native code or frameworks (like Cordova, React Native, etc.)
+    return true; // Assume NFC is enabled for the demo; in real cases, check system settings
+}
+
