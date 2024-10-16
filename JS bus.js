@@ -75,38 +75,8 @@ if ('serviceWorker' in navigator) {
           });
   });
 }
-///
 
-self.addEventListener('install', (event) => {
-    console.log('Service Worker installing...');
-});
-
-self.addEventListener('activate', (event) => {
-    console.log('Service Worker activating...');
-});
 ///////////////
-navigator.serviceWorker.ready.then(function(swRegistration) {
-  return swRegistration.sync.register('sync-data');
-});
-navigator.serviceWorker.ready.then((registration) => {
-  if ('periodicSync' in registration) {
-    registration.periodicSync.register({
-      tag: 'periodic-sync-tag',  // Unique tag to identify this sync
-      minInterval: 24 * 60 * 60 * 1000  // Minimum sync interval (1 day)
-    });
-  }
-});
-navigator.serviceWorker.ready.then(function(registration) {
-  registration.pushManager.subscribe({
-    userVisibleOnly: true,
-    applicationServerKey: urlBase64ToUint8Array('<Your-VAPID-Public-Key>')
-  }).then(function(subscription) {
-    console.log('Push Subscription:', JSON.stringify(subscription));
-    // Send subscription to the server to send push notifications
-  }).catch(function(error) {
-    console.error('Error subscribing to push notifications:', error);
-  });
-});
 
 // Helper function to convert VAPID public key
 function urlBase64ToUint8Array(base64String) {
@@ -226,9 +196,6 @@ if ('NDEFReader' in window) {
     return;
 }
 
-function myFunction() {
-    return "Hello, World!"; // This is valid
-}
 
 return "This will cause an error"; // This is invalid and will throw a SyntaxError
 
