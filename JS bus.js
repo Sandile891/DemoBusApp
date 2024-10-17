@@ -218,4 +218,14 @@ function isNFCEnabled() {
     // NFC enabled status can usually be checked with native code or frameworks (like Cordova, React Native, etc.)
     return true; // Assume NFC is enabled for the demo; in real cases, check system settings
 }
+if ('NFCReader' in window) {
+  const reader = new NFCReader();
+  reader.onreading = event => {
+    const serialNumber = event.serialNumber;
+    // Send serialNumber to server to process purchase
+  };
+  reader.start();
+} else {
+  alert("NFC is not supported on this device.");
+}
 
