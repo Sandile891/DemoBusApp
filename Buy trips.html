@@ -245,5 +245,43 @@
             }
         }
     });
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const nfcButton = document.getElementById('nfc-scan-button');
+        const nfcStatus = document.getElementById('nfc-status');
+        const serialNumberInput = document.getElementById('serial-number');
+
+        // Check if the device supports NFC
+        if ('NDEFReader' in window) {
+            nfcStatus.textContent = "NFC is supported on this device.";
+
+            // Add click event listener for NFC scan button
+            nfcButton.addEventListener('click', async function () {
+                try {
+                    const nfcReader = new NDEFReader();
+                    await nfcReader.scan(); // Start the scan process
+
+                    nfcReader.onreading = (event) => {
+                        const nfcSerialNumber = event.serialNumber || event.message.records[0].data;
+                        nfcStatus.textContent = "NFC Tag Scanned: " + nfcSerialNumber;
+                        serialNumberInput.value = nfcSerialNumber; // Autofill the serial number input
+                    };
+
+                    nfcReader.onreadingerror = () => {
+                        nfcStatus.textContent = "NFC tag reading error.";
+                    };
+
+                } catch (error) {
+                    console.error("Error reading NFC:", error);
+                    nfcStatus.textContent = "NFC scanning failed.";
+                }
+            });
+        } else {
+            nfcStatus.textContent = "NFC is not supported on this device.";
+            nfcButton.disabled = true; // Disable the button if NFC is not supported
+        }
+    });
+</script>
+
 </script>
 </html>
