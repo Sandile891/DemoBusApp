@@ -15,6 +15,7 @@
             margin-top: 20px;
             text-align: center;
         }
+
         .nfc-button {
             background-color: green;
             color: white;
@@ -22,8 +23,14 @@
             border: none;
             cursor: pointer;
         }
+
         .nfc-button:hover {
             background-color: darkgreen;
+        }
+
+        /* Styles for manual entry */
+        .manual-container {
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -34,11 +41,11 @@
         <nav>
             <ul>
                 <li><a href="index.html">Home</a></li>
-            </ul>   
+            </ul>
         </nav>
     </header>
 
- <!-- Main Form Section -->
+    <!-- Main Form Section -->
     <div class="form-container">
         <h2>Purchase Your E-Tickets</h2>
         <p>Select the number of e-tickets and enter your details to complete the purchase.</p>
@@ -57,7 +64,13 @@
             <input type="text" id="bus-tag" name="bus-tag" placeholder="Enter your bus tag card number" required>
 
             <div class="nfc-container">
-                <button type="button" id="nfc-scan-button">Scan NFC</button>
+                <button type="button" id="nfc-scan-button" class="nfc-button">Scan NFC</button>
+                <p id="nfc-status"></p>
+            </div>
+
+            <div class="manual-container">
+                <label for="serial-number">Or Enter Serial Number Manually</label>
+                <input type="text" id="serial-number" name="serial-number" placeholder="Enter your bus tag serial number">
             </div>
 
             <label for="bank-card">Bank Card Number (Visa only)</label>
@@ -75,6 +88,10 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            const nfcButton = document.getElementById('nfc-scan-button');
+            const nfcStatus = document.getElementById('nfc-status');
+            const serialNumberInput = document.getElementById('serial-number');
+
             // Handle the form submission
             const form = document.getElementById('purchase-form');
             form.addEventListener('submit', async function (event) {
@@ -82,7 +99,7 @@
 
                 // Get form data
                 const tripQuantity = document.getElementById('tickets').value;
-                const busTag = document.getElementById('bus-tag').value;
+                const busTag = document.getElementById('bus-tag').value || serialNumberInput.value;
                 const bankCard = document.getElementById('bank-card').value;
                 const expiryDate = document.getElementById('expiry-date').value;
                 const cvv = document.getElementById('cvv').value;
@@ -93,42 +110,60 @@
                     await sendDataToFirestore(tripQuantity, busTag, bankCard, expiryDate, cvv);
                 }
             });
-        });
 
-        // Function to validate form data
-        function validateFormData(tripQuantity, busTag, bankCard, expiryDate, cvv) {
-            return tripQuantity && busTag && bankCard && expiryDate && cvv; // Basic validation logic
-        }
-
-        // Function to send data to Firestore
-        async function sendDataToFirestore(tripQuantity, busTag, bankCard, expiryDate, cvv) {
-            try {
-                const response = await fetch('https://your-firestore-url', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        tripQuantity,
-                        busTag,
-                        bankCard,
-                        expiryDate,
-                        cvv
-                    }),
-                });
-                const data = await response.json();
-                console.log('Data sent to Firestore:', data);
-            } catch (error) {
-                console.error('Error sending data to Firestore:', error);
+            // Function to validate form data
+            function validateFormData(tripQuantity, busTag, bankCard, expiryDate, cvv) {
+                return tripQuantity && busTag && bankCard && expiryDate && cvv; // Basic validation logic
             }
-        }
-               
-        });
 
+            // Function to send data to Firestore
+            async function sendDataToFirestore(tripQuantity, busTag, bankCard, expiryDate, cvv) {
+                try {
+                    const response = await fetch('https://your-firestore-url', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            tripQuantity,
+                            busTag,
+                            bankCard,
+                            expiryDate,
+                            cvv
+                        }),
+                    });
+                    const data = await response.json();
+                    console.log('Data sent to Firestore:', data);
+                } catch (error) {
+                    console.error('Error sending data to Firestore:', error);
+                }
+            }
+
+            // NFC Scan Handling
+            if ('NFCReader' in window) {
+                nfcButton.addEventListener('click', async function () {
+                    try {
+                        const nfcReader = new NFCReader();
+                        nfcReader.onreading = (event) => {
+                            const nfcSerialNumber = event.serialNumber;
+                            nfcStatus.textContent = "NFC Tag Scanned: " + nfcSerialNumber;
+                            serialNumberInput.value = nfcSerialNumber; // Autofill the serial number input
+                        };
+                        await nfcReader.start();
+                    } catch (error) {
+                        console.error("Error reading NFC:", error);
+                        nfcStatus.textContent = "NFC scanning failed or is not supported.";
+                    }
+                });
+            } else {
+                nfcStatus.textContent = "NFC is not supported on this device.";
+            }
+        });
     </script>
 </body>
-    <footer>
-        <p>&copy; Demo Bus Application</p>
-    </footer>
+
+<footer>
+    <p>&copy; Demo Bus Application</p>
+</footer>
 
 </html>
