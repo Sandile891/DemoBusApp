@@ -1,172 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DEMO Bus App</title>
-  <link rel="stylesheet" href="CSS Bus.css" />
-  <link rel="manifest" href="manifest.json" />
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async defer></script>
-  <style>
-    .google-signin-container {
-      width: 200px;
-      margin: 0 auto;
-    }
-    .g_id_signin {
-      width: 100%;
-      height: 40px;
-      border-radius: 4px;
-      font-size: 16px;
-      padding: 10px;
-    }
-    #google_translate_element {
-      display: none;
-    }
-    .co2-box {
-      background: #e7f9e7;
-      border-left: 5px solid green;
-      padding: 1rem;
-      margin: 2rem;
-      font-size: 1rem;
-    }
-    .language-selector {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      font-family: Arial, sans-serif;
-      font-size: 14px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy E-Tickets</title>
+    <link rel="stylesheet" href="CSS Bus.css">
+    <button id="install-button" style="display:none;">Install App</button>
+
+    
+    <script>
+        // JavaScript to handle form submission and e-ticket generation
+        function generateETicket(event) {
+            event.preventDefault(); // Prevent form from submitting
+
+            // Generate a unique code for the e-ticket
+            const uniqueCode = Math.random().toString(36).substring(2, 12);
+
+            // Get form data
+            const tripQuantity = document.getElementById('trip-quantity').value;
+            const departureLocation = "Your Location";
+            const arrivalLocation = "Destination";
+            const departureTime = "06:45";
+            const arrivalTime = "11:40";
+            const passengerName = "Your Name"; // This can be dynamically set by the user's input
+            
+
+            // Populate the e-ticket details
+            document.getElementById('departure-location').textContent = departureLocation;
+            document.getElementById('arrival-location').textContent = arrivalLocation;
+            document.getElementById('departure-time').textContent = departureTime;
+            document.getElementById('arrival-time').textContent = arrivalTime;
+            document.getElementById('passenger-name').textContent = passengerName;
+            document.getElementById('barcode-serial').textContent = uniqueCode;
+
+            // Display the e-ticket section
+            document.getElementById('eticket-display-section').style.display = 'block';
+        }
+    </script>
+
+<script src="/JS bus.js"></script>
+
+
 </head>
 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> BusTracker</title>
+    <style>
+        /* Header Styles */
+        body {
+            font-family: serif; /* For consistent serif font across the site */
+        }
+        header {
+            background-color: #003366; /* Blue background */
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        nav a {
+            color: white;
+            margin: 0 10px;
+            text-decoration: none;
+        }
+        nav {
+            text-align: right;
+            margin-right: 20px;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* Form Styles */
+        .form-container {
+            padding: 20px;
+        }
+        input, select {
+            margin-bottom: 15px; /* Space between fields */
+            padding: 10px; /* Padding inside input/select fields */
+            width: 100%; /* Full width for fields */
+            box-sizing: border-box; /* Ensures padding is included in width */
+        }
+        .buy-button {
+            background-color: orange;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+        .buy-button:hover {
+            background-color: darkorange;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: orange;
+            text-align: center;
+            padding: 15px;
+            color: white;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
 <body>
-  <!-- Google Translate Widget (hidden) -->
-  <div id="google_translate_element"></div>
+    <!-- Header Section -->
+    <header>
+        <h1>Putco BusTracker</h1>
+        <nav>
+            <a href="Bus app.html">Home</a>
+            <a href="Buy trips.html">Buy E-Tickets</a>
+        </nav>
+    </header>
 
-  <!-- Language Selector Dropdown -->
-  <div class="language-selector">
-    <label for="languageSelect">🌐 Language:</label>
-    <select id="languageSelect" onchange="translatePage()">
-      <option value="en">English</option>
-      <option value="zu">isiZulu</option>
-      <option value="af">Afrikaans</option>
-      <option value="xh">isiXhosa</option>
-      <option value="st">Sesotho</option>
-      <option value="tn">Setswana</option>
-      <option value="ts">Xitsonga</option>
-      <option value="ve">Tshivenda</option>
-      <option value="nr">isiNdebele</option>
-      <option value="nso">Sepedi</option>
-      <option value="ss">siSwati</option>
-    </select>
-  </div>
+    <!-- Main Form Section -->
+    <div class="form-container">
+        <h2>Purchase Your E-Tickets</h2>
+        <p>Select the number of e-tickets and enter your details to complete the purchase.</p>
 
-  <header>
-    <div class="logo">
-      <h1>DEMO Bus App</h1>
+        <form action="#">
+            <label for="tickets">Number of E-Tickets</label>
+            <select id="tickets" name="tickets">
+                <option value="10">10 E-Tickets - R110</option>
+                <option value="20">20 E-Tickets - R220</option>
+                <option value="30">30 E-Tickets - R330</option>
+                <option value="40">40 E-Tickets - R440</option>
+                <option value="50">50 E-Tickets - R550</option>
+            </select>
+
+            <label for="bus-tag">Bus Tag Card Number</label>
+            <input type="text" id="bus-tag" name="bus-tag" placeholder="Enter your bus tag card number" required>
+
+            <label for="bank-card">Bank Card Number (Visa only)</label>
+            <input type="text" id="bank-card" name="bank-card" placeholder="Enter your Visa card number" required>
+
+            <label for="expiry-date">Expiry Date</label>
+            <input type="date" id="expiry-date" name="expiry-date" required>
+
+            <label for="cvv">CVV</label>
+            <input type="text" id="cvv" name="cvv" placeholder="Enter CVV" required>
+
+            <button type="submit" class="buy-button">Buy Now</button>
+        </form>
     </div>
-    <nav>
-      <ul>
-        <li><a href="contact us.html">Contact Us</a></li>
-      </ul>
-    </nav>
-  </header>
 
-  <section id="hero">
-    <div class="hero-content">
-      <h2>Welcome to the Demo Bus Tracker</h2>
-      <p>Track your bus in real-time, buy tickets online, and stay updated with our user-friendly app.</p>
-      <div class="buttons">
-        <a href="Buy trips.html">Buy Trips</a>
-        <a href="Live tracking.html">Live Tracking</a>
-        <a href="Check prices.html">Check Prices</a>
-      </div>
-    </div>
-  </section>
 
-  <!-- Google Sign-In -->
-  <div id="g_id_onload"
-    data-client_id="YOUR_GOOGLE_CLIENT_ID"
-    data-context="signin"
-    data-callback="handleCredentialResponse"
-    data-auto_prompt="false">
-  </div>
-
-  <div class="google-signin-container">
-    <div class="g_id_signin" 
-      data-type="standard"
-      data-shape="rectangular"
-      data-theme="outline"
-      data-text="signin_with"
-      data-size="large">
-    </div>
-  </div>
-
-  <section id="features">
-    <h2>App Features</h2>
-    <div class="feature-box">
-      <div class="feature">
-        <h3>Real-Time Bus Tracking</h3>
-        <p>Never miss a bus again! Track your bus in real-time with our intuitive map interface.</p>
-      </div>
-      <div class="feature">
-        <h3>Online Ticket Purchase</h3>
-        <p>Buy your bus tickets online with ease, and avoid the hassle of standing in queues.</p>
-      </div>
-      <div class="feature">
-        <h3>Fare Information</h3>
-        <p>Get the latest updates on bus fares and find the best value trips for your route.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- CO₂ Emissions -->
-  <div class="co2-box">
-    🌱 This trip saved approximately <strong>2.3 kg of CO₂</strong> compared to driving a car.
-  </div>
-
-  <footer>
-    <p>&copy; Demo Bus Application</p>
-  </footer>
-
-  <script src="JS bus.js"></script>
-
-  <script>
-    // Google Sign-In callback
-    function handleCredentialResponse(response) {
-      console.log("Encoded JWT ID token: " + response.credential);
-    }
-
-    // Google Translate init
-    function googleTranslateElementInit() {
-      new google.translate.TranslateElement({
-        pageLanguage: 'en',
-        includedLanguages: 'en,af,zu,xh,st,tn,ts,ve,nr,nso,ss',
-        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-      }, 'google_translate_element');
-    }
-
-    // Manual language switch trigger
-    function translatePage() {
-      const lang = document.getElementById("languageSelect").value;
-      const googleFrame = document.querySelector('iframe.goog-te-banner-frame');
-      const combo = document.querySelector('.goog-te-combo');
-
-      if (combo) {
-        combo.value = lang;
-        combo.dispatchEvent(new Event('change'));
-      } else {
-        // Fallback: retry after slight delay
-        setTimeout(() => {
-          const comboRetry = document.querySelector('.goog-te-combo');
-          if (comboRetry) {
-            comboRetry.value = lang;
-            comboRetry.dispatchEvent(new Event('change'));
-          }
-        }, 1000);
-      }
-    }
-  </script>
+    <!-- Footer Section >
+    <footer>
+        &copy; Bus Application | Designed with care
+    </footer-->
 </body>
 </html>
