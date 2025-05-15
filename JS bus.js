@@ -238,5 +238,12 @@ async function sendDataToFirestore(tripQuantity, busTag, bankCard, expiryDate, c
 
 ///// Service worker, PWA installation, and VAPID logic remains the same
 
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    includedLanguages: 'en,af,zu,xh,st,tn,ts,ve,nr,nso,ss',
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+  }, 'google_translate_element');
+}
 
 
