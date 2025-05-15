@@ -8,6 +8,17 @@
   <link rel="manifest" href="manifest.json" />
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async defer></script>
+  <script>
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+      pageLanguage: 'en',
+      includedLanguages: 'en,af,zu,xh,st,tn,ts,ve,nr,nso,ss',
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+    }, 'google_translate_element');
+  }
+</script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" defer></script>
+
   <style>
     .google-signin-container {
       width: 200px;
@@ -43,6 +54,7 @@
 <body>
   <!-- Google Translate Widget (hidden) -->
   <div id="google_translate_element"></div>
+
 
   <!-- Language Selector Dropdown -->
   <div class="language-selector">
