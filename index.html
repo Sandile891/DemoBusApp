@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -21,9 +21,7 @@
       padding: 10px;
     }
     #google_translate_element {
-      position: absolute;
-      top: 10px;
-      right: 10px;
+      display: none;
     }
     .co2-box {
       background: #e7f9e7;
@@ -32,12 +30,37 @@
       margin: 2rem;
       font-size: 1rem;
     }
+    .language-selector {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+    }
   </style>
 </head>
 
 <body>
-  <!-- Google Translate Widget -->
+  <!-- Google Translate Widget (hidden) -->
   <div id="google_translate_element"></div>
+
+  <!-- Language Selector Dropdown -->
+  <div class="language-selector">
+    <label for="languageSelect">🌐 Language:</label>
+    <select id="languageSelect" onchange="translatePage()">
+      <option value="en">English</option>
+      <option value="zu">isiZulu</option>
+      <option value="af">Afrikaans</option>
+      <option value="xh">isiXhosa</option>
+      <option value="st">Sesotho</option>
+      <option value="tn">Setswana</option>
+      <option value="ts">Xitsonga</option>
+      <option value="ve">Tshivenda</option>
+      <option value="nr">isiNdebele</option>
+      <option value="nso">Sepedi</option>
+      <option value="ss">siSwati</option>
+    </select>
+  </div>
 
   <header>
     <div class="logo">
@@ -98,9 +121,9 @@
     </div>
   </section>
 
-  <!-- CO₂ Emissions Placeholder -->
+  <!-- CO₂ Emissions -->
   <div class="co2-box">
-    This trip saved approximately <strong>2.3 kg of CO₂</strong> compared to driving a car.
+    🌱 This trip saved approximately <strong>2.3 kg of CO₂</strong> compared to driving a car.
   </div>
 
   <footer>
@@ -108,13 +131,14 @@
   </footer>
 
   <script src="JS bus.js"></script>
+
   <script>
     // Google Sign-In callback
     function handleCredentialResponse(response) {
       console.log("Encoded JWT ID token: " + response.credential);
     }
 
-    // Google Translate callback
+    // Google Translate init
     function googleTranslateElementInit() {
       new google.translate.TranslateElement({
         pageLanguage: 'en',
@@ -122,9 +146,27 @@
         layout: google.translate.TranslateElement.InlineLayout.SIMPLE
       }, 'google_translate_element');
     }
+
+    // Manual language switch trigger
+    function translatePage() {
+      const lang = document.getElementById("languageSelect").value;
+      const googleFrame = document.querySelector('iframe.goog-te-banner-frame');
+      const combo = document.querySelector('.goog-te-combo');
+
+      if (combo) {
+        combo.value = lang;
+        combo.dispatchEvent(new Event('change'));
+      } else {
+        // Fallback: retry after slight delay
+        setTimeout(() => {
+          const comboRetry = document.querySelector('.goog-te-combo');
+          if (comboRetry) {
+            comboRetry.value = lang;
+            comboRetry.dispatchEvent(new Event('change'));
+          }
+        }, 1000);
+      }
+    }
   </script>
 </body>
 </html>
-
-
-
