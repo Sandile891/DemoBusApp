@@ -1,114 +1,130 @@
-  <!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DEMO Bus App</title>
-    <link rel="stylesheet" href="CSS Bus.css">
-    <link rel="manifest" href="manifest.json">
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DEMO Bus App</title>
+  <link rel="stylesheet" href="CSS Bus.css" />
+  <link rel="manifest" href="manifest.json" />
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async defer></script>
+  <style>
+    .google-signin-container {
+      width: 200px;
+      margin: 0 auto;
+    }
+    .g_id_signin {
+      width: 100%;
+      height: 40px;
+      border-radius: 4px;
+      font-size: 16px;
+      padding: 10px;
+    }
+    #google_translate_element {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+    .co2-box {
+      background: #e7f9e7;
+      border-left: 5px solid green;
+      padding: 1rem;
+      margin: 2rem;
+      font-size: 1rem;
+    }
+  </style>
 </head>
 
 <body>
-    <header>
-        <div class="logo">
-            <h1>DEMO Bus App</h1>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="contact us.html">Contact Us</a></li>
-            </ul>
-        </nav>
-    </header>
+  <!-- Google Translate Widget -->
+  <div id="google_translate_element"></div>
 
-    <body>
-
-            <section id="hero">
-                <div class="hero-content">
-            <h2>Welcome to the Demo Bus Tracker</h2>
-            <p>Track your bus in real-time, buy tickets online, and stay updated with our user-friendly app.</p>
-            <div class="buttons">
-                <a href="Buy trips.html">Buy Trips</a>
-                <a href="Live tracking.html">Live Tracking</a>
-                <a href="Check prices.html">Check Prices</a>
-                </div>
-            </div>
-            </section>
-    </body>            
-
-<head>    
-    <style>
-        /* Custom styles for the Google Sign-In button container */
-        .google-signin-container {
-            width: 200px; /* Set desired width */
-            margin: 0 auto; /* Center the button horizontally */
-        }
-        
-        .g_id_signin {
-            width: 100%; /* Make button take the full width of the container */
-            height: 40px; /* Set desired height */
-            border-radius: 4px; /* Optional: add rounded corners */
-            font-size: 16px; /* Adjust font size */
-            padding: 10px
-        }
-    </style>
-</head>
-    
-    <!-- Google Sign-In button wrapped in a custom container -->
-    <div id="g_id_onload"
-         data-client_id="YOUR_GOOGLE_CLIENT_ID"
-         data-context="signin"
-         data-callback="handleCredentialResponse"
-         data-auto_prompt="false">
+  <header>
+    <div class="logo">
+      <h1>DEMO Bus App</h1>
     </div>
+    <nav>
+      <ul>
+        <li><a href="contact us.html">Contact Us</a></li>
+      </ul>
+    </nav>
+  </header>
 
-    <div class="google-signin-container">
-        <div class="g_id_signin" 
-             data-type="standard"
-             data-shape="rectangular"
-             data-theme="outline"
-             data-text="signin_with"
-             data-size="large">
-        </div>
+  <section id="hero">
+    <div class="hero-content">
+      <h2>Welcome to the Demo Bus Tracker</h2>
+      <p>Track your bus in real-time, buy tickets online, and stay updated with our user-friendly app.</p>
+      <div class="buttons">
+        <a href="Buy trips.html">Buy Trips</a>
+        <a href="Live tracking.html">Live Tracking</a>
+        <a href="Check prices.html">Check Prices</a>
+      </div>
     </div>
+  </section>
 
-    <script>
-        // JavaScript function to handle the credential response from Google
-        function handleCredentialResponse(response) {
-            console.log("Encoded JWT ID token: " + response.credential);
-            // You will send this token to your server for verification later
-        }
+  <!-- Google Sign-In -->
+  <div id="g_id_onload"
+    data-client_id="YOUR_GOOGLE_CLIENT_ID"
+    data-context="signin"
+    data-callback="handleCredentialResponse"
+    data-auto_prompt="false">
+  </div>
 
-    </script>
+  <div class="google-signin-container">
+    <div class="g_id_signin" 
+      data-type="standard"
+      data-shape="rectangular"
+      data-theme="outline"
+      data-text="signin_with"
+      data-size="large">
+    </div>
+  </div>
 
-<section id="features">
-        <h2>App Features</h2>
-        <div class="feature-box">
-            <div class="feature">
-                <h3>Real-Time Bus Tracking</h3>
-                <p>Never miss a bus again! Track your bus in real-time with our intuitive map interface.</p>
-            </div>
-            <div class="feature">
-                <h3>Online Ticket Purchase</h3>
-                <p>Buy your bus tickets online with ease, and avoid the hassle of standing in queues.</p>
-            </div>
-            <div class="feature">
-                <h3>Fare Information</h3>
-                <p>Get the latest updates on bus fares and find the best value trips for your route.</p>
-            </div>
-        </div>
-    </section>
-    
+  <section id="features">
+    <h2>App Features</h2>
+    <div class="feature-box">
+      <div class="feature">
+        <h3>Real-Time Bus Tracking</h3>
+        <p>Never miss a bus again! Track your bus in real-time with our intuitive map interface.</p>
+      </div>
+      <div class="feature">
+        <h3>Online Ticket Purchase</h3>
+        <p>Buy your bus tickets online with ease, and avoid the hassle of standing in queues.</p>
+      </div>
+      <div class="feature">
+        <h3>Fare Information</h3>
+        <p>Get the latest updates on bus fares and find the best value trips for your route.</p>
+      </div>
+    </div>
+  </section>
 
-    <footer>
-        <p>&copy; Demo Bus Application</p>
-    </footer>
+  <!-- CO₂ Emissions Placeholder -->
+  <div class="co2-box">
+    This trip saved approximately <strong>2.3 kg of CO₂</strong> compared to driving a car.
+  </div>
 
-    <script src="JS bus.js"></script>
-  
+  <footer>
+    <p>&copy; Demo Bus Application</p>
+  </footer>
+
+  <script src="JS bus.js"></script>
+  <script>
+    // Google Sign-In callback
+    function handleCredentialResponse(response) {
+      console.log("Encoded JWT ID token: " + response.credential);
+    }
+
+    // Google Translate callback
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'en,af,zu,xh,st,tn,ts,ve,nr,nso,ss',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    }
+  </script>
 </body>
 </html>
-
 
 
 
